@@ -1,6 +1,6 @@
 --- 0ad-0.0.16-alpha/build/premake/premake4.lua.orig	2014-05-17 22:21:52.787713008 +0200
 +++ 0ad-0.0.16-alpha/build/premake/premake4.lua	2014-05-17 22:22:39.659845979 +0200
-@@ -356,26 +356,6 @@
+@@ -359,26 +359,6 @@
  			defines { "INSTALLED_LIBDIR=" .. _OPTIONS["libdir"] }
  		end
  
