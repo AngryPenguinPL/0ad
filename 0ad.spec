@@ -17,7 +17,7 @@
 
 Name:		0ad
 Epoch:		1
-Version:	0.0.20
+Version:	0.0.23
 Release:	1
 # BSD License:
 #	build/premake/*
