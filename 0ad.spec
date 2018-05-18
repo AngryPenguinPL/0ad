@@ -95,7 +95,7 @@ BuildRequires:	wxgtku3.0-devel
 ExclusiveArch:	%{ix86} x86_64
 
 # http://trac.wildfiregames.com/ticket/1421
-#Patch0:			%{name}-rpath.patch
+%Patch0:			%{name}-rpath.patch
 
 # Only do fcollada debug build with enabling debug maintainer mode
 # It also prevents assumption there that it is building in x86
@@ -122,7 +122,7 @@ hobbyist game developers, since 2001.
 #-----------------------------------------------------------------------
 %prep
 %setup -q -n %{name}-%{version}-alpha
-#patch0 -p1
+%patch0 -p1
 %if !%{with_debug}
 # disable debug build, and "int 0x3" to trap to debugger (x86 only)
 %patch1 -p1
