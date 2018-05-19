@@ -61,7 +61,8 @@ BuildRequires:	subversion
 #BuildRequires:	devil-devel
 #BuildRequires:	gamin-devel
 BuildRequires:	gcc-c++
-BuildRequires:	icu-devel
+#BuildRequires:	icu-devel
+BuildRequires:	pkgconfig(icu-i18n)
 BuildRequires:	libdnet-devel
 BuildRequires:	nasm
 %if %{with_system_nvtt}
@@ -80,7 +81,9 @@ BuildRequires:	pkgconfig(gloox)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libenet)
 BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(libsodium)
 BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libzip)
 BuildRequires:	pkgconfig(nspr)
 BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(sdl2)
