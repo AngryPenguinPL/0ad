@@ -148,7 +148,7 @@ build/workspaces/clean-workspaces.sh
 %build
 %setup_compile_flags
 export CC=gcc
-export CFLAGS="%{optflags}"
+export CFLAGS="%{optflags}" -std=c++11
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
 export CPPFLAGS="`echo %{optflags} | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'`"
