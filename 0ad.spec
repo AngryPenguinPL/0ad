@@ -2,7 +2,7 @@
 
 # enable special maintainer debug build ?
 %define with_debug 0
-%define char16_t uint16_t
+#define char16_t uint16_t
 %if %{with_debug}
 %define config debug
 %define dbg _dbg
@@ -149,6 +149,7 @@ build/workspaces/clean-workspaces.sh
 %build
 %setup_compile_flags
 export CC=gcc
+export CXXFLAGS="%{optflags}" -std=c++11
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
