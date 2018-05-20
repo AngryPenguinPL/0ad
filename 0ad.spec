@@ -149,7 +149,10 @@ build/workspaces/clean-workspaces.sh
 %build
 %setup_compile_flags
 export CC=gcc
-export CXXFLAGS="%{optflags}" -std=c++11
+export CFLAGS="-DU_CHARSET_IS_UTF8=1 -DU_GNUC_UTF16_STRING=1"
+export CXXFLAGS="-std=gnu++0x  -DU_CHARSET_IS_UTF8=1
+    -DU_GNUC_UTF16_STRING=1 -DU_HAVE_CHAR16_T=1"
+export LDFLAGS="-std=gnu++0x"
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
