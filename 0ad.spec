@@ -125,7 +125,7 @@ hobbyist game developers, since 2001.
 #-----------------------------------------------------------------------
 %prep
 %setup -q -n %{name}-%{version}-alpha
-%patch0 -p1
+%patch0 -p0
 %if !%{with_debug}
 # disable debug build, and "int 0x3" to trap to debugger (x86 only)
 %patch1 -p1
