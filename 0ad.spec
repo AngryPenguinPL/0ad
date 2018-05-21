@@ -148,7 +148,7 @@ build/workspaces/clean-workspaces.sh
 #-----------------------------------------------------------------------
 %build
 %setup_compile_flags
-export CC=gcc
+export CC=%{__cc}
 export CFLAGS="-DU_CHARSET_IS_UTF8=1 -DU_GNUC_UTF16_STRING=1"
 export CXXFLAGS="-std=gnu++0x  -DU_CHARSET_IS_UTF8=1
     -DU_GNUC_UTF16_STRING=1 -DU_HAVE_CHAR16_T=1"
@@ -178,13 +178,13 @@ build/workspaces/update-workspaces.sh \
 # Depends on availablity of nvtt
 %if !%{without_nvtt}
 %check
-export CC=gcc
+export CC=%{__cc}
 #LD_LIBRARY_PATH=binaries/system binaries/system/test%{dbg}
 %endif
 
 #-----------------------------------------------------------------------
 %install
-export CC=gcc
+export CC=%{__cc}
 install -d -m 755 %{buildroot}%{_gamesbindir}
 install -m 755 binaries/system/pyrogenesis%{dbg} %{buildroot}%{_gamesbindir}/pyrogenesis%{dbg}
 
