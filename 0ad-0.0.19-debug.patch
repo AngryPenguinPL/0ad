@@ -1,0 +1,111 @@
+diff -urN 0ad-0.0.19-alpha/build/premake/premake4/src/host/scripts.c 0ad-0.0.19-alpha-patched/build/premake/premake4/src/host/scripts.c
+--- 0ad-0.0.19-alpha/build/premake/premake4/src/host/scripts.c	2013-11-09 01:08:16.000000000 +1100
++++ 0ad-0.0.19-alpha-patched/build/premake/premake4/src/host/scripts.c	2015-11-30 02:46:32.601208642 +1000
+@@ -87,7 +87,7 @@
+ 	"gs(cfg)\nlocal result = table.translate(cfg.flags, flags)\nreturn result\nend\nfunction premake.dotnet.getkind(cfg)\nif (cfg.kind == \"ConsoleApp\") then\nreturn \"Exe\"\nelseif (cfg.kind == \"WindowedApp\") then\nreturn \"WinExe\"\nelseif (cfg.kind == \"SharedLib\") then\nreturn \"Library\"\nend\nend",
+ 
+ 	/* tools/gcc.lua */
+-	"premake.gcc = { }\npremake.gcc.cc     = \"gcc\"\npremake.gcc.cxx    = \"g++\"\npremake.gcc.ar     = \"ar\"\nlocal cflags =\n{\nEnableSSE      = \"-msse\",\nEnableSSE2     = \"-msse2\",\nExtraWarnings  = \"-Wall\",\nFatalWarnings  = \"-Werror\",\nFloatFast      = \"-ffast-math\",\nFloatStrict    = \"-ffloat-store\",\nNoFramePointer = \"-fomit-frame-pointer\",\nOptimize       = \"-O2\",\nOptimizeSize   = \"-Os\",\nOptimizeSpeed  = \"-O3\",\nSymbols        = \"-g\",\n}\nlocal cxxflags =\n{\nEnableSSE      = \"-msse\",\nEnableSSE2     = \"-msse2\",\nExtraWarnings  = \"-Wall\",\nFatalWarnings  = \"-Werror\",\nFloatFast      = \"-ffast-math\",\nFloatStrict    = \"-ffloat-store\",\nNoFramePointer = \"-fomit-frame-pointer\",\nOptimize       = \"-O2\",\nOptimizeSize   = \"-Os\",\nOptimizeSpeed  = \"-O3\",\nSymbols        = \"-g\",\nNoExceptions   = \"-fno-exceptions\",\nNoRTTI         = \"-fno-rtti\",\n}\npremake.gcc.platforms = \n{\nNative = { \ncppflags = \"-MMD -MP\",\n},\nx32 = { \ncppflags = \"-MMD -MP\",\nflags  "
++	"premake.gcc = { }\npremake.gcc.cc     = \"gcc\"\npremake.gcc.cxx    = \"g++\"\npremake.gcc.ar     = \"ar\"\nlocal cflags =\n{\nEnableSSE      = \"-msse\",\nEnableSSE2     = \"-msse2\",\nExtraWarnings  = \"-Wall\",\nFatalWarnings  = \"-Werror\",\nFloatFast      = \"-ffast-math\",\nFloatStrict    = \"-ffloat-store\",\nNoFramePointer = \"-fomit-frame-pointer\",\nOptimize       = \"-O2\",\nOptimizeSize   = \"-Os\",\nOptimizeSpeed  = \"\",\nSymbols        = \"\",\n}\nlocal cxxflags =\n{\nEnableSSE      = \"-msse\",\nEnableSSE2     = \"-msse2\",\nExtraWarnings  = \"-Wall\",\nFatalWarnings  = \"-Werror\",\nFloatFast      = \"-ffast-math\",\nFloatStrict    = \"-ffloat-store\",\nNoFramePointer = \"-fomit-frame-pointer\",\nOptimize       = \"-O2\",\nOptimizeSize   = \"-Os\",\nOptimizeSpeed  = \"\",\nSymbols        = \"\",\nNoExceptions   = \"-fno-exceptions\",\nNoRTTI         = \"-fno-rtti\",\n}\npremake.gcc.platforms = \n{\nNative = { \ncppflags = \"-MMD -MP\",\n},\nx32 = { \ncppflags = \"-MMD -MP\",\nflags  "
+ 	"  = \"-m32\",\nldflags  = \"-L/usr/lib32\", \n},\nx64 = { \ncppflags = \"-MMD -MP\",\nflags    = \"-m64\",\nldflags  = \"-L/usr/lib64\",\n},\nUniversal = { \ncppflags = \"\",\nflags    = \"-arch i386 -arch x86_64 -arch ppc -arch ppc64\",\n},\nUniversal32 = { \ncppflags = \"\",\nflags    = \"-arch i386 -arch ppc\",\n},\nUniversal64 = { \ncppflags = \"\",\nflags    = \"-arch x86_64 -arch ppc64\",\n},\nPS3 = {\ncc         = \"ppu-lv2-g++\",\ncxx        = \"ppu-lv2-g++\",\nar         = \"ppu-lv2-ar\",\ncppflags   = \"-MMD -MP\",\n}\n}\nlocal platforms = premake.gcc.platforms\nfunction premake.gcc.getcppflags(cfg)\nlocal result = { }\ntable.insert(result, platforms[cfg.platform].cppflags)\nreturn result\nend\nfunction premake.gcc.getcflags(cfg)\nlocal result = table.translate(cfg.flags, cflags)\ntable.insert(result, platforms[cfg.platform].flags)\nif cfg.system ~= \"windows\" and cfg.kind == \"SharedLib\" then\ntable.insert(result, \"-fPIC\")\nend\nreturn result\nend\nfunction premake.gcc.getcxxflags(cfg)\nlocal re"
+ 	"sult = table.translate(cfg.flags, cxxflags)\nif cfg.system ~= \"windows\" and cfg.kind == \"SharedLib\" then\ntable.insert(result, \"-fPIC\")\nend\nreturn result\nend\nfunction premake.gcc.getldflags(cfg)\nlocal result = { }\nif not cfg.flags.Symbols then\nif cfg.system == \"macosx\" then\ntable.insert(result, \"-Wl,-x\")\nelse\ntable.insert(result, \"-s\")\nend\nend\nif cfg.kind == \"SharedLib\" then\nif cfg.system == \"macosx\" then\nresult = table.join(result, { \"-dynamiclib\", \"-flat_namespace\" })\nelse\ntable.insert(result, \"-shared\")\nend\nif cfg.system == \"windows\" and not cfg.flags.NoImportLib then\ntable.insert(result, '-Wl,--out-implib=\"' .. cfg.linktarget.fullpath .. '\"')\nend\nend\nif cfg.kind == \"WindowedApp\" and cfg.system == \"windows\" then\ntable.insert(result, \"-mwindows\")\nend\nlocal platform = platforms[cfg.platform]\ntable.insert(result, platform.flags)\ntable.insert(result, platform.ldflags)\nreturn result\nend\nfunction premake.gcc.getlibdirflags(cfg)\nlocal result = { }\nfo"
+ 	"r _, value in ipairs(premake.getlinks(cfg, \"all\", \"directory\")) do\ntable.insert(result, '-L' .. _MAKE.esc(value))\nend\nreturn result\nend\nfunction premake.gcc.getlinkflags(cfg)\nlocal result = { }\nfor _, value in ipairs(premake.getlinks(cfg, \"all\", \"basename\")) do\nif path.getextension(value) == \".framework\" then\ntable.insert(result, '-framework ' .. _MAKE.esc(path.getbasename(value)))\nelse\ntable.insert(result, '-l' .. _MAKE.esc(value))\nend\nend\nreturn result\nend\nfunction premake.gcc.getdefines(defines)\nlocal result = { }\nfor _,def in ipairs(defines) do\ntable.insert(result, '-D' .. def)\nend\nreturn result\nend\nfunction premake.gcc.getincludedirs(includedirs)\nlocal result = { }\nfor _,dir in ipairs(includedirs) do\ntable.insert(result, \"-I\" .. _MAKE.esc(dir))\nend\nreturn result\nend\n",
+diff -urN 0ad-0.0.19-alpha/build/premake/premake4/src/tools/gcc.lua 0ad-0.0.19-alpha-patched/build/premake/premake4/src/tools/gcc.lua
+--- 0ad-0.0.19-alpha/build/premake/premake4/src/tools/gcc.lua	2012-06-27 07:48:06.000000000 +1100
++++ 0ad-0.0.19-alpha-patched/build/premake/premake4/src/tools/gcc.lua	2015-11-30 02:42:41.612198130 +1000
+@@ -31,9 +31,9 @@
+ 		FloatStrict    = "-ffloat-store",
+ 		NoFramePointer = "-fomit-frame-pointer",
+ 		Optimize       = "-O2",
+-		OptimizeSize   = "-Os",
+-		OptimizeSpeed  = "-O3",
+-		Symbols        = "-g",
++		OptimizeSize   = "",
++		OptimizeSpeed  = "",
++		Symbols        = "",
+ 	}
+ 
+ 	local cxxflags =
+@@ -46,9 +46,9 @@
+ 		FloatStrict    = "-ffloat-store",
+ 		NoFramePointer = "-fomit-frame-pointer",
+ 		Optimize       = "-O2",
+-		OptimizeSize   = "-Os",
+-		OptimizeSpeed  = "-O3",
+-		Symbols        = "-g",
++		OptimizeSize   = "",
++		OptimizeSpeed  = "",
++		Symbols        = "",
+ 		NoExceptions   = "-fno-exceptions",
+ 		NoRTTI         = "-fno-rtti",
+ 	}
+diff -urN 0ad-0.0.19-alpha/libraries/source/fcollada/src/Makefile 0ad-0.0.19-alpha-patched/libraries/source/fcollada/src/Makefile
+--- 0ad-0.0.19-alpha/libraries/source/fcollada/src/Makefile	2014-09-25 01:39:28.000000000 +1100
++++ 0ad-0.0.19-alpha-patched/libraries/source/fcollada/src/Makefile	2015-11-30 02:26:05.768152812 +1000
+@@ -9,9 +9,7 @@
+ 
+ CXX ?= g++
+ CXXFLAGS += -fvisibility=hidden -W -Wall -Wno-unused-parameter -Wno-unused-function $(OS_DEFINE) $(PIC_FLAGS) $(CPPFLAGS)
+-CXXFLAGS_DEBUG := -O0 -g -D_DEBUG -DRETAIL
+ CXXFLAGS_RELEASE := -O2 -DNDEBUG -DRETAIL
+-CXXFLAGS_TEST := -O0 -g -D_DEBUG
+ LIBS += `pkg-config libxml-2.0 --libs`
+ INCLUDES += -IFCollada `pkg-config libxml-2.0 --cflags`
+ INCLUDES_TEST := -IFCollada/FColladaTest $(INCLUDES)
+@@ -219,33 +217,19 @@
+ 	FCollada/FColladaTest/FCTestXRef/FCTestXRefSimple.cpp \
+ 	FCollada/FColladaTest/FCTestXRef/FCTestXRefTree.cpp \
+ 
+-OBJECTS_DEBUG = $(addprefix output/debug/,$(SOURCE:.cpp=.o))
+ OBJECTS_RELEASE = $(addprefix output/release/,$(SOURCE:.cpp=.o))
+-OBJECTS_TEST = $(addprefix output/test/,$(SOURCE:.cpp=.o) $(TEST_SOURCE:.cpp=.o))
+-OBJECTS_ALL = $(OBJECTS_DEBUG) $(OBJECTS_RELEASE) $(OBJECTS_TEST)
++OBJECTS_ALL = $(OBJECTS_RELEASE)
+ 
+-all: output/libFColladaSD.a output/libFColladaSR.a install
++all: output/libFColladaSR.a install
+ 
+ output_dirs:
+-	bash -c 'mkdir -p output/{debug,release,test}/{FCollada/{FCDocument,FMath,FUtils,FColladaTest/{FCTestAssetManagement,FCTestExportImport,FCTestXRef}},FColladaPlugins/FArchiveXML}'
+-
+-test: FCollada/FColladaTest/ output/FColladaTest
+-	( cd FCollada/FColladaTest/ ; ../../output/FColladaTest )
+-	cat FCollada/FColladaTest/FColladaTestLog.txt
+-
+-output/libFColladaSD.a: $(OBJECTS_DEBUG) | output_dirs
+-	@echo "$@"
+-	@ar -cr $@ $(OBJECTS_DEBUG); ranlib $@
++	bash -c 'mkdir -p output/release/{FCollada/{FCDocument,FMath,FUtils,FColladaTest/{FCTestAssetManagement,FCTestExportImport,FCTestXRef}},FColladaPlugins/FArchiveXML}'
+ 
+ output/libFColladaSR.a: $(OBJECTS_RELEASE) | output_dirs
+ 	@echo "$@"
+ 	@ar -cr $@ $(OBJECTS_RELEASE); ranlib $@
+ 
+-output/FColladaTest: $(OBJECTS_TEST) | output_dirs
+-	$(CXX) -o $@ $(LDFLAGS) $(OBJECTS_TEST) $(LIBS)
+-
+-install: output/libFColladaSD.a output/libFColladaSR.a
+-	cp output/libFColladaSD.a ../lib/libFColladaSD.a
++install: output/libFColladaSR.a
+ 	cp output/libFColladaSR.a ../lib/libFColladaSR.a
+ 
+ dfile = $(@:.o=.d)
+@@ -255,18 +239,10 @@
+ 		sed -e 's/\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+ 		    -e '/^$$/ d' -e 's/$$/ :/' < $(dfile) >> $(Pfile) && \
+ 		rm -f $(dfile)
+-output/debug/%.o: %.cpp | output_dirs
+-	@echo "$<"
+-	$(CXX) $(CXXFLAGS) $(CXXFLAGS_DEBUG) $(INCLUDES) -MD -MF $(dfile) -c $< -o $@
+-	$(gendep)
+ output/release/%.o: %.cpp | output_dirs
+ 	@echo "$<"
+ 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_RELEASE) $(INCLUDES) -MD -MF $(dfile) -c $< -o $@
+ 	$(gendep)
+-output/test/%.o: %.cpp | output_dirs
+-	@echo "$<"
+-	$(CXX) $(CXXFLAGS) $(CXXFLAGS_TEST) $(INCLUDES_TEST) -MD -MF $(dfile) -c $< -o $@
+-	$(gendep)
+ 
+ clean:
+ 	rm -rf output
