@@ -143,8 +143,9 @@ build/workspaces/clean-workspaces.sh
 
 #-----------------------------------------------------------------------
 %build
+export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11"
 %setup_compile_flags
-#export CC=gcc
+export CC=gcc
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
@@ -170,7 +171,7 @@ build/workspaces/update-workspaces.sh \
 # Depends on availablity of nvtt
 %if !%{without_nvtt}
 %check
-#export CC=gcc
+export CC=gcc
 #LD_LIBRARY_PATH=binaries/system binaries/system/test%{dbg}
 %endif
 
