@@ -148,7 +148,7 @@ build/workspaces/clean-workspaces.sh
 #-----------------------------------------------------------------------
 %build
 %setup_compile_flags
-export CC=gcc
+#export CC=gcc
 export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11"
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
@@ -175,13 +175,13 @@ build/workspaces/update-workspaces.sh \
 # Depends on availablity of nvtt
 %if !%{without_nvtt}
 %check
-export CC=gcc
+#export CC=gcc
 #LD_LIBRARY_PATH=binaries/system binaries/system/test%{dbg}
 %endif
 
 #-----------------------------------------------------------------------
 %install
-export CC=gcc
+#export CC=gcc
 install -d -m 755 %{buildroot}%{_gamesbindir}
 install -m 755 binaries/system/pyrogenesis%{dbg} %{buildroot}%{_gamesbindir}/pyrogenesis%{dbg}
 
