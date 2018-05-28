@@ -11,7 +11,7 @@
 %define dbg %{nil}
 %endif
 
-%global with_system_nvtt 0
+%global with_system_nvtt 1
 %global with_system_mozjs 1
 
 %global without_nvtt 0
@@ -152,7 +152,7 @@ build/workspaces/clean-workspaces.sh
 %build
 %setup_compile_flags
 #export CC=gcc
-export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11"
+export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11" -fPIC
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
