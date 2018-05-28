@@ -11,7 +11,7 @@
 %define dbg %{nil}
 %endif
 
-%global with_system_nvtt 1
+%global with_system_nvtt 0
 %global with_system_mozjs 1
 
 %global without_nvtt 0
