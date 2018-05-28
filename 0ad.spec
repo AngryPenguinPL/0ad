@@ -152,7 +152,8 @@ build/workspaces/clean-workspaces.sh
 %build
 %setup_compile_flags
 #export CC=gcc
-export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11" -fPIC
+export CXXFLAGS="$RPM_OPT_FLAGS -std=gnu++11"
+export CXXFLAGS="-fPIC"
 export CFLAGS="%{optflags}"
 export AR=binutils-ar
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
