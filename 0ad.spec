@@ -111,6 +111,8 @@ Patch1:		%{name}-debug.patch
 # After some trial&error this corrects a %%check failure with gcc 4.9 on i686
 Patch3:			%{name}-check.patch
 
+Patch4:			0ad-mozjs-incompatible.patch
+
 %description
 0 A.D. (pronounced "zero ey-dee") is a free, open-source, cross-platform
 real-time strategy (RTS) game of ancient warfare. In short, it is a
@@ -135,6 +137,7 @@ hobbyist game developers, since 2001.
 #patch2 -p1
 %endif
 %patch3 -p1
+%patch4 -p1
 
 %if %{with_system_nvtt}
 rm -fr libraries/nvtt
